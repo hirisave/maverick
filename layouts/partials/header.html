@@ -1,19 +1,28 @@
 <header>
   <p style="padding: 0;margin: 0;">
-    <a href="/pages">
+    <a href="{{ "" | absURL }}">
       <b>{{ .Site.Title }}</b>
       <span class="text-stone-500 animate-blink">▮</span>
     </a>
   </p>
   <ul style="padding: 0;margin: 0;">
-    {{ $currentPage := . }}
-    {{ range .Site.Menus.main }}
-    <li class="{{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
-    <a href="{{ .URL }}"><span>{{ .Name }}</span></a>
-    </li>
-    {{ end }}
-    <li><a href="/pages/posts/"><span>Posts</span></a></li>
-    <li><a href="/pages/about/"><span>About</span></a></li>
+    <li><a href="{{ "posts/" | absURL }}"><span>Posts</span></a></li>
+    <li><a href="{{ "about/" | absURL }}"><span>About</span></a></li>
+    <li><button type="button" class="theme-toggle" id="theme-toggle" title="Toggle dark/light">◐</button></li>
   </ul>
 </header>
-<hr class="hr-list" style="padding: 0;margin: 0;">
+<script>
+  (function() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    function cycle() {
+      var el = document.documentElement;
+      var cur = el.dataset.theme || '';
+      var next = (cur === 'dark') ? 'light' : 'dark';
+      el.dataset.theme = next;
+      localStorage.setItem('theme', next);
+    }
+    btn.addEventListener('click', cycle);
+  })();
+</script>
+<hr class="header-divider">

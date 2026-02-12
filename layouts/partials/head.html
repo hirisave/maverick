@@ -1,4 +1,10 @@
 <head>
+    <script>
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      })();
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,5 +92,40 @@
   }
   </script>
   {{ end }}
+
+  <script defer>
+    (function() {
+      function initCopyButtons() {
+        var blocks = document.querySelectorAll('.content pre');
+        blocks.forEach(function(pre) {
+          if (pre.querySelector('.copy-code-btn')) return;
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'copy-code-btn';
+          btn.textContent = 'Copy';
+          btn.title = 'Copy to clipboard';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.addEventListener('click', function() {
+            var code = pre.querySelector('code');
+            var text = (code ? code : pre).innerText || (code ? code : pre).textContent;
+            navigator.clipboard.writeText(text).then(function() {
+              btn.textContent = 'Copied!';
+              btn.classList.add('copied');
+              setTimeout(function() {
+                btn.textContent = 'Copy';
+                btn.classList.remove('copied');
+              }, 1500);
+            });
+          });
+          pre.appendChild(btn);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCopyButtons);
+      } else {
+        initCopyButtons();
+      }
+    })();
+  </script>
   
   </head>

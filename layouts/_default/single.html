@@ -13,10 +13,9 @@
       <div class="post-date">
         <span class="g time">{{.Date.Format "January 2, 2006"}} </span> &#8729;
         {{ $taxonomy := "tags" }} {{ with .Param $taxonomy }}
-        {{ range $index, $tag := . }} {{ with $.Site.GetPage (printf "/%s/%s"
-        $taxonomy $tag) -}}
-        <a href="{{ .Permalink }}">{{ $tag | urlize }}</a>
-        {{- end -}} {{- end -}}
+        {{ range $index, $tag := . }}
+        <a href="{{ "posts/" | relLangURL }}#{{ $tag | urlize }}">{{ $tag | urlize }}</a>
+        {{- end -}}
         {{ end }}
       </div>
       {{ end }}

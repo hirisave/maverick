@@ -8,11 +8,28 @@
     {{ partial "header.html" . }}
     <section>
       {{ .Content }}
-      <ul reversed class="list">
+      {{ if eq .Section "posts" }}
+        {{ $scratch := newScratch }}
+        {{ $scratch.Set "taglist" slice }}
         {{ range .Pages }}
-          <li>
-            <a class="link" href="{{ .Permalink }}" title="{{ .Title }}">{{ .Title }}
-            </a>
+          {{ range .Params.tags }}
+            {{ $scratch.Add "taglist" (slice (lower .)) }}
+          {{ end }}
+        {{ end }}
+        {{ $tags := ($scratch.Get "taglist") | sort | uniq }}
+        {{ if $tags }}
+        <div class="tag-filter" role="group" aria-label="Filter posts by tag">
+          <button type="button" class="tag-filter-btn active" data-filter="all">All</button>
+          {{ range $tags }}
+          <button type="button" class="tag-filter-btn" data-filter="{{ . | urlize }}">{{ . }}</button>
+          {{ end }}
+        </div>
+        {{ end }}
+      {{ end }}
+      <ul reversed class="list post-list">
+        {{ range .Pages }}
+          <li class="post-list-item" {{ if eq $.Section "posts" }}{{ with .Params.tags }}data-tags="{{ delimit (apply (apply . "lower" ".") "urlize" ".") " " }}"{{ end }}{{ end }}>
+            <a class="link post-link" href="{{ .Permalink }}" title="{{ .Title }}">{{ .Title }}</a>
             <hr class="hr-list">
             <time class="g time" datetime="{{ dateFormat "2006-01-02" .Date }}">{{ dateFormat "02/01/06" .Date }}</time>
           </li>
@@ -21,5 +38,45 @@
     </section>
   </div>
 </main>
+{{ if eq .Section "posts" }}
+<script>
+  (function() {
+    var bar = document.querySelector('.tag-filter');
+    if (!bar) return;
+    var buttons = bar.querySelectorAll('.tag-filter-btn');
+    var list = document.querySelector('.content .post-list');
+    if (!list) return;
+    var items = list.querySelectorAll('.post-list-item[data-tags]');
+    function filter(tag) {
+      var t = String(tag);
+      buttons.forEach(function(btn) {
+        btn.classList.toggle('active', String(btn.getAttribute('data-filter')) === t);
+      });
+      items.forEach(function(li) {
+        var raw = (li.getAttribute('data-tags') || '').trim();
+        var tags = raw ? raw.split(/\s+/).filter(Boolean) : [];
+        var show = t === 'all' || tags.indexOf(t) !== -1;
+        li.hidden = !show;
+        li.style.display = show ? '' : 'none';
+      });
+    }
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var t = btn.getAttribute('data-filter');
+        filter(t);
+        if (t !== 'all') {
+          window.location.hash = t;
+        } else {
+          history.replaceState(null, '', window.location.pathname);
+        }
+      });
+    });
+    var hash = window.location.hash.slice(1);
+    if (hash) {
+      filter(hash);
+    }
+  })();
+</script>
+{{ end }}
 </body>
 </html>

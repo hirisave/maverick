@@ -1,0 +1,234 @@
+// -------- Theme: light (default) --------
+:root {
+  --bg: #fffdfa;
+  --text: #000;
+  --text-muted: #777;
+  --border: #ccc;
+  --code-bg: #eee;
+  --hr: #000;
+  --table-border: #dddddd;
+  --th-bg: #f2f2f2;
+  --skip-link-bg: #eee;
+  --blockquote-border: #eee;
+}
+
+// -------- Auto: respect system preference when no manual choice --------
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1a1a;
+    --text: #e4e4e4;
+    --text-muted: #9a9a9a;
+    --border: #444;
+    --code-bg: #2d2d2d;
+    --hr: #e4e4e4;
+    --table-border: #444;
+    --th-bg: #2d2d2d;
+    --skip-link-bg: #2d2d2d;
+    --blockquote-border: #555;
+  }
+}
+
+// -------- Manual: user chose dark --------
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --text: #e4e4e4;
+  --text-muted: #9a9a9a;
+  --border: #444;
+  --code-bg: #2d2d2d;
+  --hr: #e4e4e4;
+  --table-border: #444;
+  --th-bg: #2d2d2d;
+  --skip-link-bg: #2d2d2d;
+  --blockquote-border: #555;
+}
+
+// -------- Manual: user chose light --------
+[data-theme="light"] {
+  --bg: #fffdfa;
+  --text: #000;
+  --text-muted: #777;
+  --border: #ccc;
+  --code-bg: #eee;
+  --hr: #000;
+  --table-border: #dddddd;
+  --th-bg: #f2f2f2;
+  --skip-link-bg: #eee;
+  --blockquote-border: #eee;
+}
+
+// -------- Apply variables (override theme defaults) --------
+body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+.skip-link {
+  background: var(--skip-link-bg) !important;
+}
+
+header a,
+header a:visited,
+a,
+a:visited {
+  color: inherit;
+}
+
+.nav {
+  background: var(--hr) !important;
+}
+
+// Header: clean solid line under nav (replaces dotted)
+.header-divider {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  margin: 0.75rem 0 1rem;
+}
+
+// List item dividers: subtle solid (was dotted)
+.hr-list {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-bottom-color: var(--border) !important;
+}
+
+.meta,
+.index-date {
+  color: var(--text-muted) !important;
+}
+
+blockquote {
+  border-left-color: var(--blockquote-border) !important;
+}
+
+code,
+pre {
+  background: var(--code-bg) !important;
+  color: var(--text);
+}
+
+th, td {
+  border-color: var(--table-border) !important;
+}
+
+th {
+  background-color: var(--th-bg) !important;
+}
+
+// Theme toggle button
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  margin-left: 0.5rem;
+  opacity: 0.8;
+  font-size: 0.9em;
+}
+
+.theme-toggle:hover {
+  opacity: 1;
+}
+
+.theme-toggle:focus {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
+
+// -------- Post list: clear clickable links --------
+.post-list .post-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-color: var(--border);
+  transition: text-decoration-color 0.15s ease;
+}
+
+.post-list .post-link:hover {
+  text-decoration-color: var(--text);
+}
+
+.post-list-item {
+  margin-bottom: 0.5rem;
+}
+
+ul.post-list .post-list-item {
+  padding: 0.25rem 0;
+}
+
+ul.post-list .post-list-item:hover .post-link {
+  text-decoration-color: var(--text);
+}
+
+// -------- Code block copy button --------
+.content pre {
+  position: relative;
+  padding-top: 2.25rem;
+}
+
+.copy-code-btn {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 2px;
+  opacity: 0.85;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
+.copy-code-btn:hover {
+  opacity: 1;
+}
+
+.copy-code-btn:focus {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
+
+.copy-code-btn.copied {
+  opacity: 1;
+}
+
+// -------- Tag filter (Posts list) --------
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  align-items: center;
+}
+
+.tag-filter-btn {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 9999px;
+  opacity: 0.85;
+}
+
+.tag-filter-btn:hover {
+  opacity: 1;
+}
+
+.tag-filter-btn.active {
+  font-weight: 600;
+  border-color: var(--text);
+  opacity: 1;
+}
+
+.tag-filter-btn:focus {
+  outline: 1px dotted currentColor;
+  outline-offset: 2px;
+}
