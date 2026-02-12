@@ -106,6 +106,12 @@ pre {
   color: var(--text);
 }
 
+// No per-token backgrounds (avoids dark bars from syntax highlighter)
+.content pre span,
+.content .highlight pre span {
+  background: transparent !important;
+}
+
 th, td {
   border-color: var(--table-border) !important;
 }
