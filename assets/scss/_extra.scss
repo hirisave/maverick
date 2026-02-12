@@ -103,13 +103,22 @@ blockquote {
 code,
 pre {
   background: var(--code-bg) !important;
-  color: var(--text);
+  color: var(--text) !important;
 }
 
-// No per-token backgrounds (avoids dark bars from syntax highlighter)
+// Plain code: one color, no token backgrounds
+.content pre,
+.content pre code,
 .content pre span,
+.content .highlight pre,
+.content .highlight pre code,
 .content .highlight pre span {
+  color: var(--text) !important;
   background: transparent !important;
+}
+.content pre,
+.content .highlight pre {
+  background: var(--code-bg) !important;
 }
 
 th, td {
