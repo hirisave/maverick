@@ -73,6 +73,42 @@ a:visited {
   color: inherit;
 }
 
+// Header: name + block cursor (Maverick-style)
+.hero-name {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text);
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.hero-cursor {
+  display: inline-block;
+  width: 0.18em;
+  height: 0.9em;
+  margin-left: 0.32em;
+  background-color: #666;
+  border-radius: 0.15em;
+  vertical-align: middle;
+  animation: hero-blink 1s steps(1, end) infinite;
+}
+
+@keyframes hero-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cursor { animation: none; }
+}
+
+// Dark theme: lighter cursor so it’s visible
+[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  .hero-cursor { background-color: #9a9a9a; }
+}
+
 .nav {
   background: var(--hr) !important;
 }
@@ -82,6 +118,12 @@ a:visited {
   border: 0;
   border-bottom: 1px solid var(--border);
   margin: 0.75rem 0 1rem;
+}
+
+// Home: “Latest Posts” — more space above, slightly larger
+.latest-posts-heading {
+  margin-top: 2rem;
+  font-size: 1.15em;
 }
 
 // List item dividers: subtle solid (was dotted)
